@@ -6,6 +6,7 @@ import (
     "net/http"
     "io/ioutil"
     "github.com/zenazn/goji"
+    "github.com/zenazn/goji/web"
     "github.com/dyatlov/go-opengraph/opengraph"
     "encoding/json"
 )
@@ -56,21 +57,13 @@ func GetRoot(w http.ResponseWriter, r *http.Request) {
       // w.Write(b)
 }
 
-func PostRoot(w http.ResponseWriter, r *http.Request) {
+func PostRoot(c web.C, w http.ResponseWriter, r *http.Request) {
 
-    defer r.Body.Close()
-    body, err := ioutil.ReadAll(r.Body)
-
-    if err != nil {
-      http.Error(w, err.Error(), http.StatusInternalServerError)
-      return
-    }
-
-    fmt.Printf("Title: %s\n", string(body))
+    text := r.URL.Query().Get("text")
 
     m := Response{
         // "*Content Marketing is amazing* :smile:",
-        string(body),
+        text,
         false,
         "in_channel",
         "full",

@@ -1,8 +1,8 @@
 {
-	"ImportPath": ".",
+	"ImportPath": "github.com/johnidm/seagal",
 	"GoVersion": "go1.6",
 	"Packages": [
-		"github.com/dyatlov/go-opengraph/opengraph"
+		"./..."
 	],
 	"Deps": [
 		{

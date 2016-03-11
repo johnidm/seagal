@@ -17,7 +17,38 @@ func GetRoot(w http.ResponseWriter, r *http.Request) {
 }
 
 func PostRoot(w http.ResponseWriter, r *http.Request) {
-    fmt.Fprintf(w, "POST")
+    response := `
+      {
+            "text": "*Content Marketing is amazing* :smile: <http://contentools.com.br/marketing-de-conteudo/como-comecar-uma-estrategia-eficaz-de-marketing-de-conteudo-para-cursos-online/|Como começar uma estratégia eficaz de marketing de conteúdo para cursos online>",
+            "unfurl_links": false,
+            "response_type": "in_channel",
+            "parse":"full",
+            "mrkdwn": true,
+            "attachments": [
+                {
+                    "color": "#36a64f",
+                    "title": "Share on Facebook",
+                    "title_link": "https://api.slack.com/"
+                },
+                {
+                    "color": "#1a53ff",
+                    "title": "Share on Twitter",
+                    "title_link": "https://api.slack.com/"
+                },
+                {
+                    "color": "#ffcc00",
+                    "title": "Share on Linkedin",
+                    "title_link": "https://api.slack.com/"
+                },
+                {
+                    "color": "#ff5050",
+                    "title": "Share on G+",
+                    "title_link": "https://api.slack.com/"
+                }
+            ]
+        }
+    `
+    fmt.Fprintf(w, response)
 }
 
 func main() {

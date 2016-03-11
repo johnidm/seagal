@@ -21,6 +21,14 @@ type Response struct {
     ResponseType string     `json:"response_type" bson:"response_type"`
     Parse string            `json:"parse" bson:"parse"`
     Markdown bool           `json:"mrkdwn" bson:"mrkdwn"`
+
+    Attachments []Attachments  `json:"attachments" bson:"attachments"`
+}
+
+type Attachments struct {
+    Color string              `json:"color" bson:"color"`
+    Title string              `json:"title" bson:"title"`
+    TitleLink string          `json:"title_link" bson:"title_link"`
 }
 
 func main() {
@@ -35,17 +43,6 @@ func main() {
 
 
 func GetRoot(w http.ResponseWriter, r *http.Request) {
-
-      // m := Response{"Welcome to the SandovalEffect API, build v0.0.001.992, 6/22/2015 0340 UTC."}
-      // b, err := json.Marshal(m)
-
-      // if err != nil {
-      //     http.Error(w, err.Error(), http.StatusInternalServerError)
-      //     return
-      // }
-
-      // w.Header().Set("Content-Type", "application/json")
-      // w.Write(b)
 }
 
 func PostRoot(c web.C, w http.ResponseWriter, r *http.Request) {
@@ -58,12 +55,43 @@ func PostRoot(c web.C, w http.ResponseWriter, r *http.Request) {
 
     text := fmt.Sprintf("*Content Marketing is amazing* :smile: <%s|%s>",og.URL, og.Title)
 
+    facebook := Attachments{
+      "#36a64f",
+      "Share on Facebook",
+      "https://www.facebook.com/",
+    }
+
+    twitter := Attachments{
+      "#1a53ff",
+      "Share on Twitter",
+      "https://twitter.com/",
+    }
+
+    linkedin := Attachments{
+        "#ffcc00",
+        "Share on Linkedin",
+        "https://api.slack.com/",
+    }
+
+    googleplus := Attachments{
+      "#ff5050",
+      "Share on G+",
+      "https://api.slack.com/",
+
+    }
+
     m := Response{
         text,
         false,
         "in_channel",
         "full",
         true,
+        []Attachments{
+          facebook,
+          twitter,
+          linkedin,
+          googleplus,
+        },
       }
 
     b, err := json.Marshal(m)
@@ -73,33 +101,6 @@ func PostRoot(c web.C, w http.ResponseWriter, r *http.Request) {
           return
       }
 
-    // response := `
-    //   {
-
-    //         "attachments": [
-    //             {
-    //                 "color": "#36a64f",
-    //                 "title": "Share on Facebook",
-    //                 "title_link": "https://api.slack.com/"
-    //             },
-    //             {
-    //                 "color": "#1a53ff",
-    //                 "title": "Share on Twitter",
-    //                 "title_link": "https://api.slack.com/"
-    //             },
-    //             {
-    //                 "color": "#ffcc00",
-    //                 "title": "Share on Linkedin",
-    //                 "title_link": "https://api.slack.com/"
-    //             },
-    //             {
-    //                 "color": "#ff5050",
-    //                 "title": "Share on G+",
-    //                 "title_link": "https://api.slack.com/"
-    //             }
-    //         ]
-    //     }
-    // `
     w.Header().Set("Content-Type", "application/json")
     w.Write(b)
 }

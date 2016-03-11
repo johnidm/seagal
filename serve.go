@@ -30,15 +30,6 @@ func main() {
       goji.Serve()
 
 
-      // content, err := ReadURL("http://www.johnidouglas.com.br/django-admin-using-list_filter-and-search_fields/")
-      // if err != nil {
-      //   fmt.Println(err)
-      //   return
-      // }
-      // og, err := GetOG(content)
-
-      // fmt.Printf("Title: %s\n", og.Title)
-      // fmt.Printf("URL: %s\n", og.URL)
 
 }
 
@@ -59,10 +50,15 @@ func GetRoot(w http.ResponseWriter, r *http.Request) {
 
 func PostRoot(c web.C, w http.ResponseWriter, r *http.Request) {
 
-    text := r.FormValue("text")
+    url := r.FormValue("text")
+
+    html, _ := ReadURL(url)
+
+    og, _ := GetOG(html)
+
+    text := fmt.Sprintf("*Content Marketing is amazing* :smile: <%s|%s>",og.URL, og.Title)
 
     m := Response{
-        // "*Content Marketing is amazing* :smile:",
         text,
         false,
         "in_channel",
@@ -111,6 +107,7 @@ func PostRoot(c web.C, w http.ResponseWriter, r *http.Request) {
 
 
 func GetOG(HTML string) (*opengraph.OpenGraph, error) {
+
    og := opengraph.NewOpenGraph()
    err := og.ProcessHTML(strings.NewReader(HTML))
 

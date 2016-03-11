@@ -59,7 +59,7 @@ func GetRoot(w http.ResponseWriter, r *http.Request) {
 
 func PostRoot(c web.C, w http.ResponseWriter, r *http.Request) {
 
-    text := r.URL.Query().Get("text")
+    text := r.FormValue("text")
 
     m := Response{
         // "*Content Marketing is amazing* :smile:",

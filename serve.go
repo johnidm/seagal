@@ -2,72 +2,105 @@ package main
 
 import (
     "fmt"
-  "strings"
+    "strings"
     "net/http"
     "io/ioutil"
-
-  "github.com/zenazn/goji"
-        // "github.com/zenazn/goji/web"
-  "github.com/dyatlov/go-opengraph/opengraph"
+    "github.com/zenazn/goji"
+    "github.com/dyatlov/go-opengraph/opengraph"
+    "encoding/json"
 )
 
-
-func GetRoot(w http.ResponseWriter, r *http.Request) {
-    fmt.Fprintf(w, "Content Marketing is Amazing")
-}
-
-func PostRoot(w http.ResponseWriter, r *http.Request) {
-    response := `
-      {
-            "text": "*Content Marketing is amazing* :smile: <http://contentools.com.br/marketing-de-conteudo/como-comecar-uma-estrategia-eficaz-de-marketing-de-conteudo-para-cursos-online/|Como começar uma estratégia eficaz de marketing de conteúdo para cursos online>",
-            "unfurl_links": false,
-            "response_type": "in_channel",
-            "parse":"full",
-            "mrkdwn": true,
-            "attachments": [
-                {
-                    "color": "#36a64f",
-                    "title": "Share on Facebook",
-                    "title_link": "https://api.slack.com/"
-                },
-                {
-                    "color": "#1a53ff",
-                    "title": "Share on Twitter",
-                    "title_link": "https://api.slack.com/"
-                },
-                {
-                    "color": "#ffcc00",
-                    "title": "Share on Linkedin",
-                    "title_link": "https://api.slack.com/"
-                },
-                {
-                    "color": "#ff5050",
-                    "title": "Share on G+",
-                    "title_link": "https://api.slack.com/"
-                }
-            ]
-        }
-    `
-    fmt.Fprintf(w, response)
+type Response struct {
+    Text string             `json:"text" bson:"text"`
+    UnfurlLinks bool        `json:"unfurl_links" bson:"unfurl_links"`
+    ResponseType string     `json:"response_type" bson:"response_type"`
+    Parse string            `json:"parse" bson:"parse"`
+    Markdown bool           `json:"mrkdwn" bson:"mrkdwn"`
 }
 
 func main() {
+
       goji.Get("/", GetRoot)
       goji.Post("/", PostRoot)
       goji.Serve()
 
 
-    // content, err := ReadURL("http://www.johnidouglas.com.br/django-admin-using-list_filter-and-search_fields/")
-    // if err != nil {
-    //   fmt.Println(err)
-    //   return
-    // }
-    // og, err := GetOG(content)
+      // content, err := ReadURL("http://www.johnidouglas.com.br/django-admin-using-list_filter-and-search_fields/")
+      // if err != nil {
+      //   fmt.Println(err)
+      //   return
+      // }
+      // og, err := GetOG(content)
 
-    // fmt.Printf("Title: %s\n", og.Title)
-    // fmt.Printf("URL: %s\n", og.URL)
+      // fmt.Printf("Title: %s\n", og.Title)
+      // fmt.Printf("URL: %s\n", og.URL)
 
 }
+
+
+func GetRoot(w http.ResponseWriter, r *http.Request) {
+
+      // m := Response{"Welcome to the SandovalEffect API, build v0.0.001.992, 6/22/2015 0340 UTC."}
+      // b, err := json.Marshal(m)
+
+      // if err != nil {
+      //     http.Error(w, err.Error(), http.StatusInternalServerError)
+      //     return
+      // }
+
+      // w.Header().Set("Content-Type", "application/json")
+      // w.Write(b)
+}
+
+func PostRoot(w http.ResponseWriter, r *http.Request) {
+
+    m := Response{
+        "*Content Marketing is amazing* :smile:",
+        false,
+        "in_channel",
+        "full",
+        true,
+      }
+
+    b, err := json.Marshal(m)
+
+      if err != nil {
+          http.Error(w, err.Error(), http.StatusInternalServerError)
+          return
+      }
+
+    // response := `
+    //   {
+
+    //         "attachments": [
+    //             {
+    //                 "color": "#36a64f",
+    //                 "title": "Share on Facebook",
+    //                 "title_link": "https://api.slack.com/"
+    //             },
+    //             {
+    //                 "color": "#1a53ff",
+    //                 "title": "Share on Twitter",
+    //                 "title_link": "https://api.slack.com/"
+    //             },
+    //             {
+    //                 "color": "#ffcc00",
+    //                 "title": "Share on Linkedin",
+    //                 "title_link": "https://api.slack.com/"
+    //             },
+    //             {
+    //                 "color": "#ff5050",
+    //                 "title": "Share on G+",
+    //                 "title_link": "https://api.slack.com/"
+    //             }
+    //         ]
+    //     }
+    // `
+    w.Header().Set("Content-Type", "application/json")
+    w.Write(b)
+}
+
+
 
 func GetOG(HTML string) (*opengraph.OpenGraph, error) {
    og := opengraph.NewOpenGraph()

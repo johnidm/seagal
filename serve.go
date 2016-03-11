@@ -10,6 +10,10 @@ import (
     "encoding/json"
 )
 
+type Body struct {
+    Text string             `json:"text" bson:"text"`
+}
+
 type Response struct {
     Text string             `json:"text" bson:"text"`
     UnfurlLinks bool        `json:"unfurl_links" bson:"unfurl_links"`
@@ -54,8 +58,19 @@ func GetRoot(w http.ResponseWriter, r *http.Request) {
 
 func PostRoot(w http.ResponseWriter, r *http.Request) {
 
+    defer r.Body.Close()
+    body, err := ioutil.ReadAll(r.Body)
+
+    if err != nil {
+      http.Error(w, err.Error(), http.StatusInternalServerError)
+      return
+    }
+
+    fmt.Printf("Title: %s\n", string(body))
+
     m := Response{
-        "*Content Marketing is amazing* :smile:",
+        // "*Content Marketing is amazing* :smile:",
+        string(body),
         false,
         "in_channel",
         "full",

@@ -1,1 +1,1 @@
-web: seagal -port=$PORT
+web: seagal

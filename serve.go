@@ -32,13 +32,9 @@ type Attachments struct {
 }
 
 func main() {
-
       goji.Get("/", GetRoot)
       goji.Post("/", PostRoot)
       goji.Serve()
-
-
-
 }
 
 
@@ -49,40 +45,51 @@ func PostRoot(c web.C, w http.ResponseWriter, r *http.Request) {
 
     url := r.FormValue("text")
 
-    html, _ := ReadURL(url)
+    html, err := ReadURL(url)
 
-    og, _ := GetOG(html)
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusInternalServerError)
+        return
+    }
 
-    text := fmt.Sprintf("*Content Marketing is amazing* :smile: <%s|%s>",og.URL, og.Title)
+    og, err := GetOG(html)
+
+    if err != nil {
+          http.Error(w, err.Error(), http.StatusInternalServerError)
+          return
+      }
+
+    text := fmt.Sprintf("<!channel> *Content Marketing is amazing* :smile:, pro favor compartilhem\n")
 
     facebook := Attachments{
       "#36a64f",
       "Share on Facebook",
-      "https://www.facebook.com/",
+      fmt.Sprintf("https://www.facebook.com/sharer/sharer.php?u=%s", og.URL),
     }
 
     twitter := Attachments{
       "#1a53ff",
       "Share on Twitter",
-      "https://twitter.com/",
+
+      fmt.Sprintf("https://twitter.com/home?status=%s", og.URL),
     }
 
     linkedin := Attachments{
         "#ffcc00",
         "Share on Linkedin",
-        "https://api.slack.com/",
+
+        fmt.Sprintf("https://www.linkedin.com/shareArticle?mini=true&url=%s", og.URL),
     }
 
     googleplus := Attachments{
       "#ff5050",
       "Share on G+",
-      "https://api.slack.com/",
-
+      fmt.Sprintf("https://plus.google.com/share?url=%s", og.URL),
     }
 
     m := Response{
         text,
-        false,
+        true,
         "in_channel",
         "full",
         true,
@@ -104,7 +111,6 @@ func PostRoot(c web.C, w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Content-Type", "application/json")
     w.Write(b)
 }
-
 
 
 func GetOG(HTML string) (*opengraph.OpenGraph, error) {
@@ -138,4 +144,20 @@ func ReadURL(URL string) (string, error) {
   }
 
 
+}
+
+func FacebookShareCount(URL string) int {
+  return 0
+}
+
+func TwitterShareCount(URL string) int {
+  return 0
+}
+
+func LinkedinShareCount(URL string) int {
+  return 0
+}
+
+func GooglePlusShareCount(URL string) int {
+  return 0
 }

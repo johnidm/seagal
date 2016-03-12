@@ -59,7 +59,7 @@ func PostRoot(c web.C, w http.ResponseWriter, r *http.Request) {
           return
       }
 
-    text := fmt.Sprintf("<!channel> *Content Marketing is amazing* :smile:, pro favor compartilhem\n")
+    text := fmt.Sprintf("<!channel> *Content Marketing is amazing* :smile:, *compartilhem*\n<%s|%s>", og.URL, og.Title)
 
     facebook := Attachments{
       "#36a64f",

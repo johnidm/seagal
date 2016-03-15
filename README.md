@@ -1,5 +1,7 @@
 # seagal
 
+![](https://raw.githubusercontent.com/johnidm/seagal/master/seagal-logo.png)
+
 This is an elegant and simple way to share blog posts in Slack channel with social share buttons.
  
 This project was written in Go Lang.

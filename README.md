@@ -23,8 +23,15 @@ If you want to install and create your own endpoint, follow this steps.
  
 Clone the project
  
-Create an app on Heroku 
+Create an app on Heroku
+```
+heroku login
+heroku create
+```
 
 Deploy your application
+```
+git push heroku master
+```
  
 Ready, you can use a new endpoint.

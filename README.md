@@ -21,7 +21,12 @@ Now you can share your blog post using the command `/share <URL of blog post>`, 
 
 If you want to install and create your own endpoint, follow this steps.
  
-Clone the project
+Get the project
+
+```
+cd $GOPATH/src/
+go get github.com/johnidm/seagal
+```
  
 Create an app on Heroku
 ```

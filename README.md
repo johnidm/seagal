@@ -4,8 +4,6 @@
 
 This is an elegant and simple way to share blog posts in Slack channel with social share buttons.
  
-This project was written in Go Lang.
- 
 #### How to use
  
 The endpoint https://nameless-castle-24251.herokuapp.com/ can be used to test.
@@ -14,8 +12,7 @@ First of the all you need to create a **Slash Command**, see image:
 
 <center>![](https://raw.githubusercontent.com/johnidm/seagal/master/bot-slack-share-social-post.png)</center>
 
-
-Now you can share your blog post using the command `/share <URL of blog post>`, example `/share `
+Now you can share your blog post using the command `/share <URL of blog post>`, example `/share http://www.johnidouglas.com.br/django-migrations-reversible-migrations/ `
  
 > Note: Your page should have the graph objects og:title e og:url, for more details access  http://ogp.me/
  

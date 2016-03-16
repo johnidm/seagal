@@ -39,3 +39,7 @@ git push heroku master
 ```
  
 Ready, you can use a new endpoint.
+
+#### See result
+
+![](https://raw.githubusercontent.com/johnidm/seagal/master/seagal-example.png)

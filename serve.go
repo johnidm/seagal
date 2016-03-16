@@ -59,6 +59,10 @@ func PostRoot(c web.C, w http.ResponseWriter, r *http.Request) {
           return
       }
 
+    if len(og.URL) == 0 {
+      og.URL = url
+    }
+
     text := fmt.Sprintf("<!channel> *Content Marketing is amazing* :smile: <%s|%s>",og.URL, og.Title)
 
     facebook := Attachments{

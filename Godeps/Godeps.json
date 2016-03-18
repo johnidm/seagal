@@ -7,6 +7,15 @@
 			"Rev": "41a3523719dfbe7e8f853fbd4061867543db5270"
 		},
 		{
+			"ImportPath": "github.com/moul/http2curl",
+			"Rev": "1812aee76a1ce98d604a44200c6a23c689b17a89"
+		},
+		{
+			"ImportPath": "github.com/parnurzeal/gorequest",
+			"Comment": "v0.2.13-17-g91b42fc",
+			"Rev": "91b42fce877cc6af96c45818665a4c615cc5f4ee"
+		},
+		{
 			"ImportPath": "github.com/zenazn/goji",
 			"Comment": "v0.9.0-41-ge9a3f02",
 			"Rev": "e9a3f0275121c2439e2bd4b5dc6a9eb3fbe88451"
@@ -47,6 +56,10 @@
 		},
 		{
 			"ImportPath": "golang.org/x/net/html/atom",
+			"Rev": "e7da8edaa52631091740908acaf2c2d4c9b3ce90"
+		},
+		{
+			"ImportPath": "golang.org/x/net/publicsuffix",
 			"Rev": "e7da8edaa52631091740908acaf2c2d4c9b3ce90"
 		}
 	]

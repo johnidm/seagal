@@ -8,6 +8,7 @@ import (
     "github.com/zenazn/goji"
     "github.com/zenazn/goji/web"
     "github.com/dyatlov/go-opengraph/opengraph"
+    "github.com/parnurzeal/gorequest"
     "encoding/json"
 )
 
@@ -43,6 +44,18 @@ type ResponseMetrics struct {
     AttachmentsMetrics []AttachmentsMetrics  `json:"attachments" bson:"attachments"`
 }
 
+type FacebookShare struct {
+  ID     string `json:"id"`
+  Shares int    `json:"shares"`
+}
+
+type LinkedinShare struct {
+  Count       int    `json:"count"`
+  FCnt        string `json:"fCnt"`
+  FCntPlusOne string `json:"fCntPlusOne"`
+  URL         string `json:"url"`
+}
+
 func main() {
       goji.Post("/share", PostShare)
       goji.Post("/metric", PostMetrics)
@@ -54,12 +67,28 @@ func PostMetrics(c web.C, w http.ResponseWriter, r *http.Request) {
 
     user := r.FormValue("user_name")
     user_id := r.FormValue("user_id")
-    // url := r.FormValue("text")
+
+    url := r.FormValue("text")
 
     facebook := AttachmentsMetrics{
       "#36a64f",
-      "Total Shares on Facebook (1)",
+      fmt.Sprintf("Total Shares on Facebook: %d", FacebookShareCount(url)),
     }
+
+    // twitter := AttachmentsMetrics{
+    //   "#1a53ff",
+    //   "Total Shares on Twitter: 1",
+    // }
+
+    linkedin := AttachmentsMetrics{
+        "#ffcc00",
+        fmt.Sprintf("Total Shares on Linkedin: %d", LinkedinShareCount(url)),
+    }
+
+    // googleplus := AttachmentsMetrics{
+    //   "#ff5050",
+    //   "Total Shares on G+",
+    // }
 
     text := fmt.Sprintf("Hi <@%s|%s>, we have been analyzing the URL you gave us, and this is the result of our analysis:", user_id, user)
 
@@ -69,6 +98,9 @@ func PostMetrics(c web.C, w http.ResponseWriter, r *http.Request) {
         true,
         []AttachmentsMetrics{
           facebook,
+          // twitter,
+          linkedin,
+          // googleplus,
         },
       }
 
@@ -189,11 +221,19 @@ func ReadURL(URL string) (string, error) {
     return string(contents), nil
   }
 
-
 }
 
 func FacebookShareCount(URL string) int {
-  return 0
+
+  var fs FacebookShare;
+
+  url := fmt.Sprintf("http://graph.facebook.com/?id=%s", URL)
+
+  _, body, _ := gorequest.New().Get(url).End()
+
+  json.Unmarshal([]byte(body), &fs)
+
+  return fs.Shares
 }
 
 func TwitterShareCount(URL string) int {
@@ -201,7 +241,17 @@ func TwitterShareCount(URL string) int {
 }
 
 func LinkedinShareCount(URL string) int {
-  return 0
+
+  var ls LinkedinShare
+
+  url := fmt.Sprintf("https://www.linkedin.com/countserv/count/share?url=%s&format=json", URL)
+
+  _, body, _ := gorequest.New().Get(url).End()
+
+  fmt.Println(body)
+  json.Unmarshal([]byte(body), &ls)
+
+  return ls.Count
 }
 
 func GooglePlusShareCount(URL string) int {

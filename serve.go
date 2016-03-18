@@ -31,6 +31,11 @@ type Attachments struct {
     TitleLink string          `json:"title_link" bson:"title_link"`
 }
 
+type AttachmentsMetrics struct {
+    Color string              `json:"color" bson:"color"`
+    Title string              `json:"title" bson:"title"`
+}
+
 type ResponseMetrics struct {
     Text string             `json:"text" bson:"text"`
     ResponseType string     `json:"response_type" bson:"response_type"`
@@ -38,23 +43,44 @@ type ResponseMetrics struct {
     AttachmentsMetrics []AttachmentsMetrics  `json:"attachments" bson:"attachments"`
 }
 
-type AttachmentsMetrics struct {
-    Color string              `json:"color" bson:"color"`
-    Title string              `json:"title" bson:"title"`
-}
-
 func main() {
       goji.Post("/share", PostShare)
-      goji.Post("/metrics", PostMetrics)
+      goji.Post("/metric", PostMetrics)
       goji.Serve()
 }
 
 
 func PostMetrics(c web.C, w http.ResponseWriter, r *http.Request) {
 
-    // user := r.FormValue("user_name")
-    // id := r.FormValue("user_id")
+    user := r.FormValue("user_name")
+    user_id := r.FormValue("user_id")
     // url := r.FormValue("text")
+
+    facebook := AttachmentsMetrics{
+      "#36a64f",
+      "Total Shares on Facebook (1)",
+    }
+
+    text := fmt.Sprintf("Hi <@%s|%s>, we have been analyzing the URL you gave us, and this is the result of our analysis:", user_id, user)
+
+    m := ResponseMetrics{
+        text,
+        "in_channel",
+        true,
+        []AttachmentsMetrics{
+          facebook,
+        },
+      }
+
+    b, err := json.Marshal(m)
+
+      if err != nil {
+          http.Error(w, err.Error(), http.StatusInternalServerError)
+          return
+      }
+
+    w.Header().Set("Content-Type", "application/json")
+    w.Write(b)
 
 }
 func PostShare(c web.C, w http.ResponseWriter, r *http.Request) {

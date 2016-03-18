@@ -31,17 +31,33 @@ type Attachments struct {
     TitleLink string          `json:"title_link" bson:"title_link"`
 }
 
+type ResponseMetrics struct {
+    Text string             `json:"text" bson:"text"`
+    ResponseType string     `json:"response_type" bson:"response_type"`
+    Markdown bool           `json:"mrkdwn" bson:"mrkdwn"`
+    AttachmentsMetrics []AttachmentsMetrics  `json:"attachments" bson:"attachments"`
+}
+
+type AttachmentsMetrics struct {
+    Color string              `json:"color" bson:"color"`
+    Title string              `json:"title" bson:"title"`
+}
+
 func main() {
-      goji.Get("/", GetRoot)
-      goji.Post("/", PostRoot)
+      goji.Post("/share", PostShare)
+      goji.Post("/metrics", PostMetrics)
       goji.Serve()
 }
 
 
-func GetRoot(w http.ResponseWriter, r *http.Request) {
-}
+func PostMetrics(c web.C, w http.ResponseWriter, r *http.Request) {
 
-func PostRoot(c web.C, w http.ResponseWriter, r *http.Request) {
+    // user := r.FormValue("user_name")
+    // id := r.FormValue("user_id")
+    // url := r.FormValue("text")
+
+}
+func PostShare(c web.C, w http.ResponseWriter, r *http.Request) {
 
     url := r.FormValue("text")
 

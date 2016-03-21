@@ -12,7 +12,13 @@ First of the all you need to create a **Slash Command**, see image:
 
 <center>![](https://raw.githubusercontent.com/johnidm/seagal/master/bot-slack-share-social-post.png)</center>
 
+#### Features
+
+##### Share
+
 Now, you can share your blog post using the command `/share <URL of blog post>`, example `/share http://www.johnidouglas.com.br/django-migrations-reversible-migrations/`. 
+
+##### Metric
 
 If you want to count the total shares use the command `/metric <URL of blog post>`, example `/metric http://www.johnidouglas.com.br/django-migrations-reversible-migrations/`.
  

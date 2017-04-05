@@ -10,7 +10,7 @@ The endpoint https://nameless-castle-24251.herokuapp.com/ can be used to test.
  
 First of the all you need to create a **Slash Command**, see image:
 
-<center>![](https://raw.githubusercontent.com/johnidm/seagal/master/bot-slack-share-social-post.png)</center>
+![](https://raw.githubusercontent.com/johnidm/seagal/master/bot-slack-share-social-post.png)
 
 #### Features
 
